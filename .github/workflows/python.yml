@@ -23,5 +23,13 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - run: pip install pytest -r requirements.txt
-      - run: pytest
+      - run: pip install pytest pytest-cov -r requirements.txt
+      - run: pytest --cov=torapp
+      - run: mkdir -p coverage
+      - uses: tj-actions/coverage-badge-py@v2
+        with:
+          output: coverage/coverage.svg
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: coverage-badge
+          folder: coverage
